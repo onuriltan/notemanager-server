@@ -53,7 +53,8 @@ const bootServer = async () => {
 
 bootServer()
   .then(() => {
-    logger.info('Server is ready.')
+    const port = process.env.PORT
+    logger.info(`Server is running on port ${port}`)
   })
   .catch((e) => {
     logger.error('Server is failed to boot.')
