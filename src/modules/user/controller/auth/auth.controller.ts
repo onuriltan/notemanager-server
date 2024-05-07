@@ -4,21 +4,22 @@ import * as authService from '../../service/auth/auth.service'
 import * as jwt from '../../../../middlewares/jwt'
 import { logger } from '../../../../config/pino'
 import { Request, Response } from 'express'
+import oauth from 'oauth'
 
 interface ReturnType {
   msg: string
 }
 
-export const loginWithSocial = async (
+export const loginWithSocial = (
   req: Request,
   res: Response
-): Promise<Response | void> => {
+): Response | void => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (req?.user?.method) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const token = await jwt.signToken(req.user)
+    const token = jwt.signToken(req.user)
     if (token) {
       return res.redirect(
         `${process.env.CLIENT_URL}/login/?${
@@ -122,7 +123,7 @@ export const findUserWithConfirmationToken = async (
           logger.error(e)
         }
       }
-      const token = await jwt.signToken(user)
+      const token = jwt.signToken(user)
       res.json({ token })
     } else {
       await authRepository.deleteUser(user._id.toString())

@@ -13,15 +13,23 @@ import { logger } from './config/pino'
 import { configureAndRunMigrations } from './migrations'
 import noteModule from './modules/notes'
 import userModule from './modules/user'
-
+import session from 'express-session'
+// After you declare "app"
 const bootServer = async () => {
   // Middleware
-  const server = express()
-  server.use(bodyParser.json())
-  server.use(cors())
-  server.use(cookieParser())
-  server.use(passport.initialize())
-  server.use(helmet())
+  const app = express()
+  app.use(bodyParser.json())
+  app.use(cors())
+  app.use(cookieParser())
+  app.use(passport.initialize())
+  app.use(helmet())
+  app.use(
+    session({
+      secret: process.env.JWT_SECRET,
+      resave: true,
+      saveUninitialized: true,
+    })
+  )
 
   // Connect to Mongo
   try {
@@ -43,21 +51,21 @@ const bootServer = async () => {
   configurePassport()
 
   // Routes
-  server.get('/', (_, res) => {
-    res.send('Server is running')
+  app.get('/', (_, res) => {
+    res.send(`${process.env.APP_NAME} server is running`)
   })
-  server.use('/api/notes', noteModule)
-  server.use('/api/user', userModule)
+  app.use('/api/notes', noteModule)
+  app.use('/api/user', userModule)
 
   const port = process.env.PORT
 
-  server.listen(port)
+  app.listen(port)
 }
 
 bootServer()
   .then(() => {
     const port = process.env.PORT
-    logger.info(`Server is running on port ${port}`)
+    logger.info(`${process.env.APP_NAME} is running on port ${port}`)
   })
   .catch((e) => {
     logger.error('Server is failed to boot.')

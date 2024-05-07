@@ -10,6 +10,9 @@ declare global {
       FACEBOOK_APP_ID: string
       FACEBOOK_APP_SECRET: string
       FACEBOOK_APP_CALLBACK_URL: string
+      TWITTER_CONSUMER_KEY: string
+      TWITTER_CONSUMER_SECRET: string
+      TWITTER_CALLBACK_URL: string
       GOOGLE_CLIENT_ID: string
       GOOGLE_CLIENT_SECRET: string
       GOOGLE_CLIENT_CALLBACK_URL: string

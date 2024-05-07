@@ -1,5 +1,6 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
+    APP_NAME: string
     LOG_LEVEL: string
     MONGO_URL: string
     CLIENT_URL: string

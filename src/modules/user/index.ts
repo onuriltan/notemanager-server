@@ -60,6 +60,16 @@ authRoutes.get(
   loginWithSocial
 )
 
+authRoutes.get('/twitter', passport.authenticate('twitter'))
+authRoutes.get(
+  '/twitter/callback',
+  passport.authenticate('twitter', {
+    failureRedirect: '/login',
+    failureMessage: true,
+  }),
+  loginWithSocial
+)
+
 // User
 router.use('/', userRoutes)
 userRoutes.use(verifyToken)

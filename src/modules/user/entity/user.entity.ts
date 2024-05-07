@@ -39,18 +39,12 @@ const UserSchema = new Schema(
       },
     },
     google: {
-      id: {
-        type: String,
-      },
       email: {
         type: String,
         lowercase: true,
       },
     },
     facebook: {
-      id: {
-        type: String,
-      },
       email: {
         type: String,
         lowercase: true,
@@ -59,6 +53,10 @@ const UserSchema = new Schema(
     active: {
       type: Boolean,
       default: false,
+    },
+    email: {
+      type: String,
+      lowercase: true,
     },
     confirmationToken: {
       type: String,
